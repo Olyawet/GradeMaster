@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#4361EE">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="GradeMaster">
+    <title>GradeMaster - Калькулятор среднего балла</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📊</text></svg>">
+    <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📊</text></svg>">
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Open+Sans:wght@400&family=Roboto+Mono&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header class="header-container">
+        <div class="logo">
+            <h1>GradeMaster</h1>
+        </div>
+        <div class="scale-selector">
+            <label for="grade-scale">▾ Шкала оценок:</label>
+            <select id="grade-scale">
+                <option value="5-point">5-балльная</option>
+                <option value="12-point">12-балльная</option>
+                <option value="10-point">10-балльная</option>
+                <option value="A-F">Буквенная (A-F)</option>
+            </select>
+        </div>
+        <div class="header-actions">
+            <button id="settings-button" class="icon-button"><span class="material-icons">settings</span> Настройки</button>
+            <button id="reset-button" class="icon-button danger-button"><span class="material-icons">refresh</span> Сбросить</button>
+            <button id="save-data-button" class="icon-button"><span class="material-icons">save</span> Сохранить данные</button>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <div id="subjects-container" class="subjects-grid">
+            </div>
+
+        <button id="add-subject-fab" class="fab"><span class="material-icons">add</span> Добавить предмет</button>
+        <button id="add-subject-quick" class="add-subject-quick" title="Быстрое добавление предмета">+</button>
+    </main>
+
+    <footer class="summary-panel">
+        <p>🔢 Всего предметов: <span id="total-subjects">0</span></p>
+        <p>📈 Средний балл за четверть: <span id="overall-avg-grade">0.0</span></p>
+        <p>🏆 Максимальный балл: <span id="max-subject-grade">Нет</span></p>
+        <p>⚠️ Минимальный балл: <span id="min-subject-grade">Нет</span></p>
+    </footer>
+
+    <div id="settings-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-button">&times;</span>
+            <h2>⚙️ Системные настройки</h2>
+
+            <section class="settings-section">
+                <h3>1. Типы работ и веса:</h3>
+                <div id="work-types-list">
+                    <div class="work-type-item">
+                        <span>Контрольная</span>
+                        <select class="work-type-weight">
+                            <option value="1.0">1.0</option>
+                            <option value="0.9">0.9</option>
+                            <option value="0.8">0.8</option>
+                            <option value="0.7">0.7</option>
+                            <option value="0.6">0.6</option>
+                            <option value="0.5">0.5</option>
+                            <option value="0.4">0.4</option>
+                            <option value="0.3">0.3</option>
+                            <option value="0.2">0.2</option>
+                            <option value="0.1">0.1</option>
+                        </select>
+                        <button class="remove-work-type-button"><span class="material-icons">close</span></button>
+                    </div>
+                    <div class="work-type-item">
+                        <span>Домашняя работа</span>
+                        <select class="work-type-weight">
+                            <option value="1.0">1.0</option>
+                            <option value="0.9">0.9</option>
+                            <option value="0.8">0.8</option>
+                            <option value="0.7" selected>0.7</option>
+                            <option value="0.6">0.6</option>
+                            <option value="0.5">0.5</option>
+                            <option value="0.4">0.4</option>
+                            <option value="0.3">0.3</option>
+                            <option value="0.2">0.2</option>
+                            <option value="0.1">0.1</option>
+                        </select>
+                        <button class="remove-work-type-button"><span class="material-icons">close</span></button>
+                    </div>
+                    <div class="work-type-item">
+                        <span>Работа на уроке</span>
+                        <select class="work-type-weight">
+                            <option value="1.0">1.0</option>
+                            <option value="0.9">0.9</option>
+                            <option value="0.8">0.8</option>
+                            <option value="0.7">0.7</option>
+                            <option value="0.6">0.6</option>
+                            <option value="0.5" selected>0.5</option>
+                            <option value="0.4">0.4</option>
+                            <option value="0.3">0.3</option>
+                            <option value="0.2">0.2</option>
+                            <option value="0.1">0.1</option>
+                        </select>
+                        <button class="remove-work-type-button"><span class="material-icons">close</span></button>
+                    </div>
+                    <div class="work-type-item">
+                        <span>Зачёт</span>
+                        <select class="work-type-weight">
+                            <option value="1.0">1.0</option>
+                            <option value="0.9" selected>0.9</option>
+                            <option value="0.8">0.8</option>
+                            <option value="0.7">0.7</option>
+                            <option value="0.6">0.6</option>
+                            <option value="0.5">0.5</option>
+                            <option value="0.4">0.4</option>
+                            <option value="0.3">0.3</option>
+                            <option value="0.2">0.2</option>
+                            <option value="0.1">0.1</option>
+                        </select>
+                        <button class="remove-work-type-button"><span class="material-icons">close</span></button>
+                    </div>
+                </div>
+                <div class="add-new-item-row">
+                    <input type="text" id="new-work-type-name" placeholder="Название типа работы">
+                    <input type="number" id="new-work-type-weight" placeholder="Вес (0.0-1.0)" min="0.0" max="1.0" step="0.1">
+                    <button id="add-work-type-button" class="icon-button"><span class="material-icons">add</span> Добавить тип</button>
+                </div>
+            </section>
+
+            <section class="settings-section">
+                <h3>2. Предметы:</h3>
+                <div class="subject-templates">
+                    <h4>Готовые шаблоны предметов:</h4>
+                    <div class="subject-templates-grid">
+                        <button class="subject-template" data-subject="Математика">📐 Математика</button>
+                        <button class="subject-template" data-subject="Физика">⚡ Физика</button>
+                        <button class="subject-template" data-subject="Химия">🧪 Химия</button>
+                        <button class="subject-template" data-subject="Биология">🌱 Биология</button>
+                        <button class="subject-template" data-subject="История">📚 История</button>
+                        <button class="subject-template" data-subject="География">🌍 География</button>
+                        <button class="subject-template" data-subject="Литература">📖 Литература</button>
+                        <button class="subject-template" data-subject="Русский язык">📝 Русский язык</button>
+                        <button class="subject-template" data-subject="Английский язык">🇬🇧 Английский язык</button>
+                        <button class="subject-template" data-subject="Информатика">💻 Информатика</button>
+                        <button class="subject-template" data-subject="Физкультура">🏃 Физкультура</button>
+                        <button class="subject-template" data-subject="ИЗО">🎨 ИЗО</button>
+                        <button class="subject-template" data-subject="Музыка">🎵 Музыка</button>
+                        <button class="subject-template" data-subject="Технология">🔧 Технология</button>
+                        <button class="subject-template" data-subject="ОБЖ">🛡️ ОБЖ</button>
+                        <button class="subject-template" data-subject="Обществознание">🏛️ Обществознание</button>
+                    </div>
+                </div>
+                <div id="subject-names-list">
+                    </div>
+                <div class="add-new-item-row">
+                    <input type="text" id="new-subject-name" placeholder="Название предмета">
+                    <button id="add-subject-name-button" class="icon-button"><span class="material-icons">add</span> Добавить предмет</button>
+                </div>
+            </section>
+
+            <section class="settings-section">
+                <h3>3. Визуальные настройки:</h3>
+                <label class="checkbox-container">
+                    <input type="checkbox" id="dark-theme-toggle"> Тёмная тема
+                    <span class="checkmark"></span>
+                </label>
+                <label class="checkbox-container">
+                    <input type="checkbox" id="show-tips-toggle" checked> Показывать подсказки
+                    <span class="checkmark"></span>
+                </label>
+                <label class="checkbox-container">
+                    <input type="checkbox" id="auto-save-toggle" checked> Автосохранение
+                    <span class="checkmark"></span>
+                </label>
+            </section>
+
+            <section class="settings-section">
+                <h3>4. Экспорт данных:</h3>
+                <button id="export-csv-button" class="icon-button"><span class="material-icons">download</span> CSV</button>
+                <button id="export-pdf-button" class="icon-button"><span class="material-icons">picture_as_pdf</span> PDF</button>
+                <button id="reset-data-button" class="icon-button danger-button"><span class="material-icons">delete_forever</span> Сбросить данные</button>
+            </section>
+        </div>
+    </div>
+
+    <!-- Модальное окно для расширенных настроек предмета -->
+    <div id="subject-settings-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-button">&times;</span>
+            <h2>⚙️ Настройки предмета</h2>
+            
+            <div class="subject-settings-form">
+                <div class="form-group">
+                    <label for="subject-name-input">Название предмета:</label>
+                    <input type="text" id="subject-name-input" placeholder="Введите название предмета">
+                </div>
+                
+                <div class="form-group">
+                    <label for="subject-color">Цвет предмета:</label>
+                    <input type="color" id="subject-color" value="#4361EE">
+                </div>
+                
+                <div class="form-group">
+                    <label for="subject-icon">Иконка предмета:</label>
+                    <select id="subject-icon">
+                        <option value="📐">📐 Математика</option>
+                        <option value="⚡">⚡ Физика</option>
+                        <option value="🧪">🧪 Химия</option>
+                        <option value="🌱">🌱 Биология</option>
+                        <option value="📚">📚 История</option>
+                        <option value="🌍">🌍 География</option>
+                        <option value="📖">📖 Литература</option>
+                        <option value="📝">📝 Русский язык</option>
+                        <option value="🇬🇧">🇬🇧 Английский язык</option>
+                        <option value="💻">💻 Информатика</option>
+                        <option value="🏃">🏃 Физкультура</option>
+                        <option value="🎨">🎨 ИЗО</option>
+                        <option value="🎵">🎵 Музыка</option>
+                        <option value="🔧">🔧 Технология</option>
+                        <option value="🛡️">🛡️ ОБЖ</option>
+                        <option value="🏛️">🏛️ Обществознание</option>
+                        <option value="📊">📊 Другой</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="subject-weight">Вес предмета в общем среднем:</label>
+                    <input type="number" id="subject-weight" min="0.1" max="2.0" step="0.1" value="1.0">
+                    <small>1.0 = обычный вес, 0.5 = половина веса, 2.0 = двойной вес</small>
+                </div>
+                
+                <div class="form-group">
+                    <label for="subject-goal">Целевой средний балл:</label>
+                    <input type="number" id="subject-goal" min="1" max="12" step="0.1" placeholder="Например: 4.5">
+                    <small>Оставьте пустым, если цель не установлена</small>
+                </div>
+                
+                <div class="form-group">
+                    <label class="checkbox-container">
+                        <input type="checkbox" id="subject-notifications">
+                        Уведомления о низких оценках
+                        <span class="checkmark"></span>
+                    </label>
+                </div>
+                
+                <div class="form-group">
+                    <label class="checkbox-container">
+                        <input type="checkbox" id="subject-auto-calc" checked>
+                        Автоматический пересчёт среднего
+                        <span class="checkmark"></span>
+                    </label>
+                </div>
+                
+                <div class="form-group">
+                    <label for="subject-notes">Заметки:</label>
+                    <textarea id="subject-notes" placeholder="Дополнительные заметки о предмете..." rows="3"></textarea>
+                </div>
+            </div>
+            
+            <div class="modal-actions">
+                <button id="save-subject-settings" class="icon-button"><span class="material-icons">save</span> Сохранить</button>
+                <button id="cancel-subject-settings" class="icon-button secondary-button"><span class="material-icons">close</span> Отмена</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
